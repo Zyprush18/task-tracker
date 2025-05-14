@@ -3,16 +3,14 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"os"
+	"os"	
+	"strconv"
 	"time"
 
 	"github.com/Zyprush18/task-tracker/models"
 )
 
-// func init()  {
-// 	_,err := os.Stat("data.json")
-// }
-
+// add task
 func AddTask(desc string) (string, error) {
 	var task []*models.Task
 	var id int
@@ -30,10 +28,12 @@ func AddTask(desc string) (string, error) {
 	erer := json.Unmarshal(file, &task)
 	if erer != nil {
 		id = 1
+		fmt.Println(err)
 	}
-
-	if len(task) != 0 {
-		id = len(task) + 1
+	
+	if len(task) > 0 {
+		lastdata := task[len(task)-1]
+		id = lastdata.Id + 1
 	}
 
 	tasks := &models.Task{
@@ -50,9 +50,7 @@ func AddTask(desc string) (string, error) {
 		return "", err
 
 	}
-
 	
-
 	defer openfile.Close()
 
 	if _, err := openfile.Write(databyte); err != nil {
@@ -61,4 +59,48 @@ func AddTask(desc string) (string, error) {
 	}
 	msg := fmt.Sprintf("Task added successfully (ID: %d)", id)
 	return msg,nil
+}
+
+// update task
+func UpdateTask(id,desc string) error {
+	var task []*models.Task
+
+	ids, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+
+	readfile, err := os.ReadFile("data.json")
+	if err != nil {
+		return err
+	}
+
+	if err := json.Unmarshal(readfile, &task); err != nil{
+		return err
+	}
+
+	fmt.Println(task)
+	for _, v := range task {
+		if v.Id == ids {
+			v.Description = desc
+			v.UpdatedAt = time.Now()
+		}
+	}
+
+
+	jsondata, err := json.Marshal(task)
+	if err != nil {
+		return err
+	}
+
+	openfile, err := os.OpenFile("data.json",os.O_WRONLY|os.O_TRUNC, 0755)
+	if err != nil {
+		return err
+	}
+	defer openfile.Close()
+
+	if _,err:= openfile.Write(jsondata);err != nil {
+		return err
+	}
+	return nil
 }
