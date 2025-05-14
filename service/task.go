@@ -59,7 +59,7 @@ func ListByfilter(status string) ([]models.Task, error) {
 // add task
 func AddTask(desc string) (string, error) {
 	var task []*models.Task
-	var id int
+	id := 1
 
 	openfile, err := os.OpenFile("data.json", os.O_CREATE|os.O_WRONLY, 0755)
 	if err != nil {
@@ -188,7 +188,7 @@ func DeleteTask(id string) (string, error) {
 		}
 	}
 
-	if !found {
+	if found {
 		return "", fmt.Errorf("task with ID %d not found", ids)
 	}
 
