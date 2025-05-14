@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/Zyprush18/task-tracker/service"
-
 )
 
 func main() {
@@ -13,6 +12,8 @@ func main() {
 
 	if argument[1] != "" {
 		switch argument[1] {
+		case "list":
+
 		case "add":
 			msg,err := service.AddTask(argument[2])
 			if err != nil {
@@ -27,6 +28,14 @@ func main() {
 				return
 			}
 			fmt.Println(msg)
+		case "delete":
+			msg, err := service.DeleteTask(argument[2])
+			if err != nil {
+				fmt.Println(err.Error())
+			}
+
+			fmt.Println(msg)
+
 		default:
 			fmt.Println("Unknown")
 		}
@@ -34,6 +43,4 @@ func main() {
 		fmt.Println("please enter according to the order")
 	}
 	
-
-
 }
