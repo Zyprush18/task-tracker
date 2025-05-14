@@ -139,6 +139,4 @@ Available statuses:
 
 ## Project Idea
 
-The CLI Task Manager is a lightweight tool for managing tasks directly from your terminal. It enhances productivity by allowing you to focus on tasks without leaving the command line.
-
-For more inspiration and ideas, check out the [Task Tracker Project on Roadmap.sh](https://roadmap.sh/projects/task-tracker).
+This project is inspired by the <a href="https://roadmap.sh/projects/task-tracker">Task Tracker Project on Roadmap.sh</a>, designed to practice building CLI apps using Go.
