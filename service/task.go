@@ -62,21 +62,21 @@ func AddTask(desc string) (string, error) {
 }
 
 // update task
-func UpdateTask(id,desc string) error {
+func UpdateTask(id,desc string) (string, error) {
 	var task []*models.Task
 
 	ids, err := strconv.Atoi(id)
 	if err != nil {
-		return err
+		return "",err
 	}
 
 	readfile, err := os.ReadFile("data.json")
 	if err != nil {
-		return err
+		return "",err
 	}
 
 	if err := json.Unmarshal(readfile, &task); err != nil{
-		return err
+		return "",err
 	}
 
 	fmt.Println(task)
@@ -90,17 +90,19 @@ func UpdateTask(id,desc string) error {
 
 	jsondata, err := json.Marshal(task)
 	if err != nil {
-		return err
+		return "",err
 	}
 
 	openfile, err := os.OpenFile("data.json",os.O_WRONLY|os.O_TRUNC, 0755)
 	if err != nil {
-		return err
+		return "",err
 	}
 	defer openfile.Close()
 
 	if _,err:= openfile.Write(jsondata);err != nil {
-		return err
+		return "",err
 	}
-	return nil
+
+	msg := fmt.Sprintf("Task Updated successfully (ID: %d)", ids)
+	return msg,nil
 }

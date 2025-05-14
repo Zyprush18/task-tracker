@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	"fmt"
 	"os"
 
@@ -22,12 +21,12 @@ func main() {
 			}
 			fmt.Println(msg)
 		case "update":
-			err := service.UpdateTask(argument[2], argument[3])
+			msg,err := service.UpdateTask(argument[2], argument[3])
 			if err != nil {
 				fmt.Println(err.Error())
 				return
 			}
-			fmt.Println("Updated successfully")
+			fmt.Println(msg)
 		default:
 			fmt.Println("Unknown")
 		}
