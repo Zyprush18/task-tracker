@@ -41,7 +41,7 @@ go build -o task-cli main.go
 
 ### ➕ Add a New Task
 ```bash
-task-cli add "Buy groceries"
+./task-cli add "Buy groceries"
 ```
 **Example output:**
 ```bash
@@ -52,7 +52,7 @@ Task added successfully (ID: 1)
 
 ### ✏️ Update an Existing Task
 ```bash
-task-cli update <task_id> "New description"
+./task-cli update <task_id> "New description"
 ```
 **Example output:**
 ```bash
@@ -63,7 +63,7 @@ Task updated successfully
 
 ### ❌ Delete a Task
 ```bash
-task-cli delete <task_id>
+./task-cli delete <task_id>
 ```
 **Example output:**
 ```bash
@@ -74,7 +74,7 @@ Task deleted successfully
 
 ### 🔄 Mark Task as In-Progress
 ```bash
-task-cli mark-in-progress <task_id>
+./task-cli mark-in-progress <task_id>
 ```
 **Example output:**
 ```bash
@@ -85,7 +85,7 @@ Task updated successfully
 
 ### ✅ Mark Task as Done
 ```bash
-task-cli mark-done <task_id>
+././task-cli mark-done <task_id>
 ```
 **Example output:**
 ```bash
@@ -96,7 +96,7 @@ Task updated successfully
 
 ### 📋 List All Tasks
 ```bash
-task-cli list
+././task-cli list
 ```
 **Example output:**
 ```json
@@ -115,7 +115,7 @@ task-cli list
 
 ### 📂 List Tasks by Status
 ```bash
-task-cli list <status>
+././task-cli list <status>
 ```
 Available statuses:
 - `todo`
