@@ -85,7 +85,7 @@ Task updated successfully
 
 ### ✅ Mark Task as Done
 ```bash
-././task-cli mark-done <task_id>
+./task-cli mark-done <task_id>
 ```
 **Example output:**
 ```bash
@@ -96,7 +96,7 @@ Task updated successfully
 
 ### 📋 List All Tasks
 ```bash
-././task-cli list
+./task-cli list
 ```
 **Example output:**
 ```json
@@ -115,7 +115,7 @@ Task updated successfully
 
 ### 📂 List Tasks by Status
 ```bash
-././task-cli list <status>
+./task-cli list <status>
 ```
 Available statuses:
 - `todo`
