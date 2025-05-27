@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Zyprush18/task-tracker/v2/service"
+	"github.com/Zyprush18/task-tracker//service"
 )
 
 func main() {
