@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Zyprush18/task-tracker//models"
+	"github.com/Zyprush18/task-tracker/models"
 )
 
 func List() ([]models.Task, error) {
