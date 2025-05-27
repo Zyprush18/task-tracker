@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Zyprush18/task-tracker/models"
+	"github.com/Zyprush18/task-tracker/v2/models"
 )
 
 func List() ([]models.Task, error) {
@@ -36,7 +36,6 @@ func ListByfilter(status string) ([]models.Task, error) {
 	if err := json.Unmarshal(readfile, &task); err != nil {
 		return nil, err
 	}
-
 
 	var data []models.Task
 	if status != "" {
@@ -124,7 +123,7 @@ func UpdateTask(id, desc string) (string, error) {
 		return "", err
 	}
 
-	found:= false
+	found := false
 	for _, v := range task {
 		if v.Id == ids {
 			found = true
@@ -133,7 +132,7 @@ func UpdateTask(id, desc string) (string, error) {
 		}
 	}
 
-	if !found{
+	if !found {
 		return "", fmt.Errorf("task with ID %d not found", ids)
 	}
 
@@ -174,7 +173,7 @@ func DeleteTask(id string) (string, error) {
 	}
 
 	var data []*models.Task
-	found:= false
+	found := false
 	for _, v := range task {
 		if v.Id != ids {
 			found = true
@@ -229,7 +228,7 @@ func MarkInProgress(id string) (string, error) {
 		return "", err
 	}
 
-	found:= false
+	found := false
 	for _, v := range task {
 		if v.Id == ids {
 			found = true
@@ -241,7 +240,6 @@ func MarkInProgress(id string) (string, error) {
 	if !found {
 		return "", fmt.Errorf("task with ID %d not found", ids)
 	}
-
 
 	jsondata, err := json.Marshal(task)
 	if err != nil {
@@ -291,7 +289,6 @@ func MarkDone(id string) (string, error) {
 	if !found {
 		return "", fmt.Errorf("task with ID %d not found", ids)
 	}
-
 
 	jsondata, err := json.Marshal(task)
 	if err != nil {
