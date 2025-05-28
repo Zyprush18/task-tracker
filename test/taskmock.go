@@ -18,8 +18,8 @@ type Task struct {
 
 type TaskMock interface {
 	ListAllTask() ([]Task, error)
+	Taskbyfilter(filter string) ([]Task, error)
 }
-
 // mock object
 type TaskMockObject struct {
 	Mock mock.Mock
@@ -27,5 +27,12 @@ type TaskMockObject struct {
 
 func (m *TaskMockObject) ListAllTask() ([]Task, error) {
 	args := m.Mock.Called()
+	return args.Get(0).([]Task), args.Error(1)
+}
+
+
+func (m *TaskMockObject) Taskbyfilter(filter string) ([]Task, error) {
+	args := m.Mock.Called(filter)
+
 	return args.Get(0).([]Task), args.Error(1)
 }
