@@ -17,3 +17,13 @@ func (service TaskService) Taskbyfilter(filter string) ([]Task, error) {
 
 	return task, nil
 }
+
+
+func (service TaskService) AddTask(task Task) (string, error) {
+	add, err := service.Repo.AddTask(task)
+	if err != nil {
+		return "", errors.New(err.Error())
+	}
+
+	return add, nil
+}

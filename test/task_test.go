@@ -1,6 +1,7 @@
 package test
 
 import (
+
 	"testing"
 	"time"
 
@@ -104,3 +105,25 @@ func TestListbyfilter(t *testing.T) {
 
 	Taskmock.Mock.AssertExpectations(t)
 }
+
+
+func TestAddTask(t *testing.T)  {
+	data := Task{
+		Id: "1",
+		Description: "Ini Description 1",
+		Status: "todo",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	Taskmock.Mock.On("AddTask", data).Return("Task added successfully",nil)
+
+	result, err := Taskservice.Repo.AddTask(data)
+
+	assert.NoError(t, err)
+
+	assert.Equal(t, "Task added successfully",result)
+
+	Taskmock.Mock.AssertExpectations(t)
+}
+
