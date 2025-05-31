@@ -20,6 +20,8 @@ type TaskMock interface {
 	ListAllTask() ([]Task, error)
 	Taskbyfilter(filter string) ([]Task, error)
 	AddTask(task Task) (string, error)
+	FindById(id int) (Task, error)
+	Update(task Task) (string, error)
 }
 // mock object
 type TaskMockObject struct {
@@ -41,4 +43,15 @@ func (m *TaskMockObject) Taskbyfilter(filter string) ([]Task, error) {
 func (m *TaskMockObject) AddTask(task Task) (string, error) {
 	args := m.Mock.Called(task)
 	return args.String(0), args.Error(1)
+}
+
+func (m *TaskMockObject) FindById(id int) (Task, error) {
+	args := m.Mock.Called(id)
+	return args.Get(0).(Task), args.Error(1)
+}
+
+func (m *TaskMockObject) Update(task Task) (string, error) {
+	args := m.Mock.Called(task)
+
+	return args.String(0),args.Error(1)
 }
