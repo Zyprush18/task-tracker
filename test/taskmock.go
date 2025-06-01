@@ -22,6 +22,7 @@ type TaskMock interface {
 	AddTask(task Task) (string, error)
 	FindById(id int) (Task, error)
 	Update(task Task) (string, error)
+	Delete(task Task) (string, error)
 }
 // mock object
 type TaskMockObject struct {
@@ -54,4 +55,11 @@ func (m *TaskMockObject) Update(task Task) (string, error) {
 	args := m.Mock.Called(task)
 
 	return args.String(0),args.Error(1)
+}
+
+
+func (m *TaskMockObject) Delete(task Task) (string, error) {
+	args := m.Mock.Called(task)
+
+	return args.String(0), args.Error(1)
 }

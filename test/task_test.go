@@ -1,6 +1,7 @@
 package test
 
 import (
+	"errors"
 	"testing"
 	"time"
 
@@ -132,19 +133,60 @@ func TestUpdateTask(t *testing.T) {
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 	}
+	t.Run("UpdateTask", func(t *testing.T) {
 		Taskmock.Mock.On("FindById", 1).Return(data, nil)
 		Taskmock.Mock.On("Update", mock.AnythingOfType("Task")).Return("Task Updated successfully", nil)
 
-
-		result,message, err := Taskservice.UpdateTask(1, "Ini Description 1 Update")
+		result, message, err := Taskservice.UpdateTask(1, "Ini Description 1 Update")
 		assert.NoError(t, err)
-
 
 		assert.Equal(t, "Task Updated successfully", message)
 		assert.Equal(t, "Ini Description 1 Update", result.Description)
+	})
 
-		Taskmock.Mock.AssertExpectations(t)
+	t.Run("UpdateTaskNotFound", func(t *testing.T) {
+		Taskmock.Mock.On("FindById", 2).Return(data, errors.New("Task with Id 2 Not Found"))
+		Taskmock.Mock.On("Update", mock.AnythingOfType("Task")).Return("", errors.New("Failed To Update Task"))
 
-	
+		_, _, err := Taskservice.UpdateTask(2, "Ini Description 2 Update")
+		assert.Error(t, err)
+
+		assert.Equal(t, "Task with Id 2 Not Found", err.Error())
+	})
+
+	Taskmock.Mock.AssertExpectations(t)
+}
+
+func TestDeleteTask(t *testing.T) {
+	data := Task{
+		Id:          "1",
+		Description: "Ini Description 1",
+		Status:      "todo",
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+	}
+
+	t.Run("DeleteTask", func(t *testing.T) {
+		Taskmock.Mock.On("FindById", 1).Return(data, nil)
+		Taskmock.Mock.On("Delete", mock.AnythingOfType("Task")).Return("Task Deleted successfully", nil)
+
+		result, err := Taskservice.DeleteTask(1)
+
+		assert.NoError(t, err)
+		assert.Equal(t, "Task Deleted successfully", result)
+	})
+
+	t.Run("DeleteTaskNotFound", func(t *testing.T) {
+		Taskmock.Mock.On("FindById", 3).Return(data, errors.New("Task with Id 3 Not Found"))
+		Taskmock.Mock.On("Delete", mock.AnythingOfType("Task")).Return("", errors.New("Failed To Delete Task"))
+
+		_, err := Taskservice.DeleteTask(3)
+
+		assert.Error(t, err)
+		assert.Equal(t, "Task with Id 3 Not Found", err.Error())
+
+	})
+
+	Taskmock.Mock.AssertExpectations(t)
 
 }

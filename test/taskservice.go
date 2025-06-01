@@ -44,3 +44,18 @@ func (service TaskService)	UpdateTask(id int,description string) (*Task,string, 
 
 	return &task,update,nil
 }
+
+
+func (service TaskService) DeleteTask(id int) (string, error) {
+	task, err := service.Repo.FindById(id)
+	if err != nil {
+		return "", errors.New(err.Error())
+	}
+
+	deleteMsg, err := service.Repo.Delete(task)
+	if err != nil {
+		return "", errors.New(err.Error())
+	}
+
+	return deleteMsg, nil
+}
