@@ -2,7 +2,6 @@ package test
 
 import (
 	"errors"
-
 )
 
 type TaskService struct {
@@ -58,4 +57,20 @@ func (service TaskService) DeleteTask(id int) (string, error) {
 	}
 
 	return deleteMsg, nil
+}
+
+func (service TaskService) MarkUpdate(id int, status string) (string, error)  {
+	task, err := service.Repo.FindById(id)
+	if err != nil {
+		return "", errors.New(err.Error())
+	}
+
+	task.Status = status
+
+	updateStatus, err := service.Repo.MarkStatus(task)
+	if err != nil {
+		return "", errors.New(err.Error())
+	}
+
+	return updateStatus, nil
 }

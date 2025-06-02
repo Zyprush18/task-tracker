@@ -148,10 +148,12 @@ func TestUpdateTask(t *testing.T) {
 		Taskmock.Mock.On("FindById", 2).Return(data, errors.New("Task with Id 2 Not Found"))
 		Taskmock.Mock.On("Update", mock.AnythingOfType("Task")).Return("", errors.New("Failed To Update Task"))
 
-		_, _, err := Taskservice.UpdateTask(2, "Ini Description 2 Update")
+		result, message, err := Taskservice.UpdateTask(2, "Ini Description 2 Update")
 		assert.Error(t, err)
 
 		assert.Equal(t, "Task with Id 2 Not Found", err.Error())
+		assert.Equal(t, "", message)
+		assert.Nil(t, result)
 	})
 
 	Taskmock.Mock.AssertExpectations(t)
@@ -180,13 +182,57 @@ func TestDeleteTask(t *testing.T) {
 		Taskmock.Mock.On("FindById", 3).Return(data, errors.New("Task with Id 3 Not Found"))
 		Taskmock.Mock.On("Delete", mock.AnythingOfType("Task")).Return("", errors.New("Failed To Delete Task"))
 
-		_, err := Taskservice.DeleteTask(3)
+		msg, err := Taskservice.DeleteTask(3)
 
 		assert.Error(t, err)
 		assert.Equal(t, "Task with Id 3 Not Found", err.Error())
-
+		assert.Equal(t, "", msg)
 	})
 
 	Taskmock.Mock.AssertExpectations(t)
+}
 
+
+func TestMarkProgress(t *testing.T)  {
+	data := Task{
+		Id:          "1",
+		Description: "Ini Description 1",
+		Status:      "todo",
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+	}
+
+	t.Run("In-Progress",func(t *testing.T) {
+		Taskmock.Mock.On("FindById", 1).Return(data, nil)
+		Taskmock.Mock.On("MarkStatus", mock.AnythingOfType("Task")).Return("Task Updated successfully",nil)
+
+		msg, err := Taskservice.MarkUpdate(1,"in-progress")
+
+		assert.NoError(t, err)
+		assert.Equal(t, "Task Updated successfully", msg)
+	})
+
+
+	t.Run("Done",func(t *testing.T) {
+		Taskmock.Mock.On("FindById", 1).Return(data, nil)
+		Taskmock.Mock.On("MarkStatus", mock.AnythingOfType("Task")).Return("Task Updated successfully",nil)
+
+		msg, err := Taskservice.MarkUpdate(1,"done")
+
+		assert.NoError(t, err)
+		assert.Equal(t, "Task Updated successfully", msg)
+	})
+
+	t.Run("NotFoundDataById",func(t *testing.T) {
+		Taskmock.Mock.On("FindById", 2).Return(data, errors.New("Task with Id 2 Not Found"))
+		Taskmock.Mock.On("MarkStatus", mock.AnythingOfType("Task")).Return("",errors.New("Failed To Update Task"))
+
+		msg, err := Taskservice.MarkUpdate(2,"done")
+
+		assert.Error(t, err)
+		assert.Equal(t, "", msg)
+		assert.Equal(t, "Task with Id 2 Not Found", err.Error())
+	})
+
+	Taskmock.Mock.AssertExpectations(t)
 }
